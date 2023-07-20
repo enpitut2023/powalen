@@ -20,15 +20,24 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Hello Flutter'),
-        ),
-        body: new Center(
-          child: new Text('Hello Flutter'),
-        ),
+      home: ViewWeatherImage());
+  }
+}
+
+class ViewWeatherImage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+
+      ),
+      body: Center(
+        // ここを追加
+        child: Image.asset('lib/image/tenki_mark01_hare.png'),
       ),
     );
   }
 }
+
 
