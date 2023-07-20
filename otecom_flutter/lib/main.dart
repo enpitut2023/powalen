@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+
 void main() => runApp(MyApp());
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+
       home: ViewWeatherImage());
   }
 }
@@ -35,6 +38,7 @@ class ViewWeatherImage extends StatelessWidget {
       body: Center(
         // ここを追加
         child: Image.asset('lib/image/tenki_mark01_hare.png'),
+
       ),
     );
   }
