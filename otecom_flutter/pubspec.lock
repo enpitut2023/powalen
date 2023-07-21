@@ -137,6 +137,7 @@ packages:
     source: hosted
     version: "0.15.4"
   http:
+    dependency: transitive
     dependency: "direct main"
     description:
       name: http
@@ -301,6 +302,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  weather:
+    dependency: "direct main"
+    description:
+      name: weather
+      sha256: "80642558610a8097956e603163fe648c14bb926beee52fe7cd78a44f37c53877"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   xml:
     dependency: transitive
     description:
