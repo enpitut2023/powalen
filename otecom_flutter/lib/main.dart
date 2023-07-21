@@ -198,14 +198,14 @@ class ViewWeatherImage extends StatelessWidget {
   }
 }
 
-// void getWeather() async {
-//   String key = "your API Key";
-//   double lat = 55.0111; //latitude(緯度)
-//   double lon = 15.0569; //longitude(経度)
-//   WeatherFactory wf = new WeatherFactory(key);
-//
-//   List<Weather> w = await wf.fiveDayForecastByCityName("tsukuba");
-//
-//   print(w[0]);
-//   print(w[0].weatherMain);
-// }
+void getWeather() async {
+  String key = APIkey;
+  double lat = 55.0111; //latitude(緯度)
+  double lon = 15.0569; //longitude(経度)
+  WeatherFactory wf = new WeatherFactory(key);
+
+  List<Weather> w = await wf.fiveDayForecastByCityName("tsukuba");
+
+  print(w[0]);
+  print(w[0].weatherMain);
+ }
