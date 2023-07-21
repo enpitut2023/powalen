@@ -37,7 +37,7 @@ class ViewWeatherImage extends StatelessWidget {
       ),
       body: Center(
         // ここを追加
-        child: Image.asset('lib/image/tenki_mark01_hare.png'),
+        child: Image.asset('assets/image/tenki_mark01_hare.png'),
 
       ),
     );
