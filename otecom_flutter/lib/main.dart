@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'apikey.dart';
 
+String APIkey = api_key;
 
 void main() => runApp(MyApp());
 
@@ -43,5 +45,3 @@ class ViewWeatherImage extends StatelessWidget {
     );
   }
 }
-
-
