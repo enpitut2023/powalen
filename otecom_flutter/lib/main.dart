@@ -48,8 +48,110 @@ class ViewWeatherImage extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 150,
+                    width: 150,
+                    child: Image.asset('assets/image/tenki_mark01_hare.png'),
+                  ),
+                  Container(
+                    height: 150,
+                    width: 150,
+                    child: const Text("29℃", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 70),),
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 40,
+                    width: 120,
+                    child: const Text("12:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
+                  ),
+                  Container(
+                    height: 40,
+                    width: 120,
+                    child: const Text("18:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
+                  ),
+                  Container(
+                    height: 40,
+                    width: 120,
+                    child: const Text("21:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 120,
+                    width: 120,
+                    child: Image.asset('assets/image/tenki_mark01_hare.png'),
+                  ),
+                  Container(
+                    height: 120,
+                    width: 120,
+                    child: Image.asset('assets/image/weather_cloud.png'),
+                  ),
+                  Container(
+                    height: 120,
+                    width: 120,
+                    child: Image.asset('assets/image/weather_rain.png'),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 200,
+                    width: 200,
+                    child: Image.asset('assets/image/unten_miawase_train.png'),
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            height: 70,
+                            width: 80,
+                            child: Image.asset('assets/image/tx_logo.png'),
+                          ),
+                          Container(
+                            height: 70,
+                            width: 80,
+                            child: Image.asset('assets/image/okureari.png'),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            height: 70,
+                            width: 80,
+                            child: Image.asset('assets/image/jyouban_logo.png'),
+                          ),
+                          Container(
+                            height: 70,
+                            width: 100,
+                            child: Image.asset('assets/image/unten_miawase.png'),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              )
+            ]
+          )
           // ここを追加
-          child: Image.asset('assets/image/tenki_mark01_hare.png'),
+          // child: Image.asset('assets/image/tenki_mark01_hare.png'),
           // body: Row(
           //   children: <Widget>[
           //     Text("item1"),
@@ -63,5 +165,14 @@ class ViewWeatherImage extends StatelessWidget {
   }
 }
 
-
-
+// void getWeather() async {
+//   String key = "your API Key";
+//   double lat = 55.0111; //latitude(緯度)
+//   double lon = 15.0569; //longitude(経度)
+//   WeatherFactory wf = new WeatherFactory(key);
+//
+//   List<Weather> w = await wf.fiveDayForecastByCityName("tsukuba");
+//
+//   print(w[0]);
+//   print(w[0].weatherMain);
+// }
