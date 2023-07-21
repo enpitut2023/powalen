@@ -12,11 +12,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # for weather info
+  weather: ^2.0.1
 
+  # for splash
   cupertino_icons: ^1.0.2
-
   flutter_native_splash: ^2.3.1
 
+  http: ^0.13.1
+  html: ^0.15.0
 
 dev_dependencies:
   flutter_test:
@@ -45,12 +49,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Sawarabi_Gothic
+      fonts:
+        - asset: assets/fonts/SawarabiGothic-Regular.ttf
+          style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
@@ -76,4 +79,3 @@ flutter_native_splash:
     image: 'assets/img.png'
     icon_background_color_dark: '#262626'
     image_dark: 'assets/img.png'
-
