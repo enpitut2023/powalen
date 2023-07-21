@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:weather/weather.dart';
 
 
-void main() => runApp(MyApp());
+void main(){
+  // getWeather();
+  runApp(MyApp());
+}
 
 
 class MyApp extends StatelessWidget {
@@ -31,17 +35,33 @@ class ViewWeatherImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+          Colors.white,
+          Colors.blue,
+        ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,),
       ),
-      body: Center(
-        // ここを追加
-        child: Image.asset('assets/image/tenki_mark01_hare.png'),
-
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Center(
+          // ここを追加
+          child: Image.asset('assets/image/tenki_mark01_hare.png'),
+          // body: Row(
+          //   children: <Widget>[
+          //     Text("item1"),
+          //     Text("item2"),
+          //     Text("item3"),
+          //     Text("item4"),
+          //   ],
+        ),
       ),
     );
   }
 }
+
 
 

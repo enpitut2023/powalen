@@ -12,9 +12,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # for weather info
+  weather: ^2.0.1
 
+  # for splash
   cupertino_icons: ^1.0.2
-
   flutter_native_splash: ^2.3.1
 
 
@@ -76,4 +78,3 @@ flutter_native_splash:
     image: 'assets/img.png'
     icon_background_color_dark: '#262626'
     image_dark: 'assets/img.png'
-
