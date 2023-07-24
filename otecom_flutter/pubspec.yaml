@@ -18,6 +18,8 @@ dependencies:
   # for splash
   cupertino_icons: ^1.0.2
   flutter_native_splash: ^2.3.1
+  intl: any
+  flutter_slidable: ^3.0.0
 
   http: ^0.13.1
   html: ^0.15.0

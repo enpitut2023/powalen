@@ -3,6 +3,7 @@ import 'apikey.dart';
 import 'package:weather/weather.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'pages/alarm_page.dart';
 
 String APIkey = api_key;
 
@@ -151,6 +152,12 @@ class ViewWeatherImage extends StatelessWidget {
                     ],
                   )
                 ],
+              ),
+              TextButton(
+                child: Text("Set"),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AlarmPage()));
+                },
               )
             ]
           )
@@ -164,6 +171,7 @@ class ViewWeatherImage extends StatelessWidget {
           //     Text("item4"),
           //   ],
         ),
+
       ),
     );
   }
