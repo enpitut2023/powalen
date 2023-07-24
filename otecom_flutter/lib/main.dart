@@ -3,6 +3,7 @@ import 'apikey.dart';
 import 'package:weather/weather.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'trainInfo.dart';
 
 String APIkey = api_key;
 
@@ -110,47 +111,10 @@ class ViewWeatherImage extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 200,
-                    width: 200,
-                    child: Image.asset('assets/image/unten_miawase_train.png'),
-                  ),
-                  Column(
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 80,
-                            child: Image.asset('assets/image/tx_logo.png'),
-                          ),
-                          Container(
-                            height: 70,
-                            width: 80,
-                            child: Image.asset('assets/image/okureari.png'),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 80,
-                            child: Image.asset('assets/image/jyouban_logo.png'),
-                          ),
-                          Container(
-                            height: 70,
-                            width: 100,
-                            child: Image.asset('assets/image/unten_miawase.png'),
-                          ),
-                        ],
-                      )
-                    ],
-                  )
-                ],
+              Container(
+                  height: 400,
+                  width: 400,
+                  child: TransInfoWidget(line: "")
               )
             ]
           )
