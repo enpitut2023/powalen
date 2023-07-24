@@ -4,6 +4,7 @@ import 'package:weather/weather.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'trainInfo.dart';
+import 'wether.dart';
 
 String APIkey = api_key;
 
@@ -56,60 +57,10 @@ class ViewWeatherImage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 150,
-                    width: 150,
-                    child: Image.asset('assets/image/tenki_mark01_hare.png'),
-                  ),
-                  Container(
-                    height: 150,
-                    width: 150,
-                    child: const Text("29℃", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 70),),
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: const Text("12:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
-                  ),
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: const Text("18:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
-                  ),
-                  Container(
-                    height: 40,
-                    width: 120,
-                    child: const Text("21:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 120,
-                    width: 120,
-                    child: Image.asset('assets/image/tenki_mark01_hare.png'),
-                  ),
-                  Container(
-                    height: 120,
-                    width: 120,
-                    child: Image.asset('assets/image/weather_cloud.png'),
-                  ),
-                  Container(
-                    height: 120,
-                    width: 120,
-                    child: Image.asset('assets/image/weather_rain.png'),
-                  ),
-                ],
+              Container(
+                height: 400,
+                width: 400,
+                  child: WetherWidget(line: "")
               ),
               Container(
                   height: 400,
