@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:otecom_flutter/pages/add_edit_alarm_page.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class AlarmPage extends StatefulWidget {
   @override
@@ -12,9 +13,22 @@ class AlarmPage extends StatefulWidget {
 
 class _AlarmPageState extends State<AlarmPage> {
   List<Alarm> alarmList =[
-
+    Alarm(alarmTime: DateTime(2000, 1, 1, 6, 0))
   ];
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
+  void notification() {
+    flutterLocalNotificationsPlugin.initialize(
+      InitializationSettings(
+        android: AndroidInitializationSettings('ic_launcher'),
+        iOS: DarwinInitializationSettings()
+      )
+    );
+    flutterLocalNotificationsPlugin.show(1, 'アラーム', '時間になりました', NotificationDetails(
+      android: AndroidNotificationDetails('id', 'name', importance: Importance.max,priority: Priority.high),
+      iOS: DarwinNotificationDetails()
+    ));
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +39,7 @@ class _AlarmPageState extends State<AlarmPage> {
             backgroundColor: Colors.black,
             largeTitle: Text('アラーム', style: TextStyle(color: Colors.white)),
             trailing: GestureDetector(
-              child: Icon(Icons.add, color: Colors.orange,),
+              child: Icon(Icons.add, color: Colors.green,),
               onTap: () async{
                 await Navigator.push(context, MaterialPageRoute(builder:(context) => AddEditAlarmPage(alarmList)));
                 setState(() {
