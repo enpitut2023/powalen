@@ -35,7 +35,8 @@ class _TransInfoState extends State<TransInfoWidget> {
     String? imageFile = "";
     Map<String, String> TransInfoMapImage = {
       '平常運転' : 'assets/image/heijyou_unten.png',
-      '[!]列車遅延' : 'assets/image/okureari.png'
+      '[!]列車遅延' : 'assets/image/okureari.png',
+      '[!]運転状況' : 'assets/image/okureari.png',
     };
 
     if(TransInfoMapImage.containsKey(trainStatus)){
@@ -107,7 +108,7 @@ class _TransInfoState extends State<TransInfoWidget> {
                                     Container(
                                       height: 70,
                                       width: 80,
-                                      child: Image.asset(TransInfoMapImage(trainInfo[0][1])),
+                                      child: Image.asset(TransInfoMapImage(trainInfo[2][1])),
                                     ),
                                   ],
                                 ),
@@ -121,7 +122,7 @@ class _TransInfoState extends State<TransInfoWidget> {
                                     Container(
                                       height: 70,
                                       width: 100,
-                                      child: Image.asset(TransInfoMapImage(trainInfo[1][1])),
+                                      child: Image.asset(TransInfoMapImage(trainInfo[0][1])),
                                     ),
                                   ],
                                 )
