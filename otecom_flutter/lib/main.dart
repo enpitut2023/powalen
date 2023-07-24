@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:otecom_flutter/alarm.dart';
 // import 'apikey.dart';
-import 'package:weather/weather.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
 import 'trainInfo.dart';
 import 'wether.dart';
-import 'pages/alarm_page.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'dart:convert';
 
 
 const int alramSecond = 5;
 
 // import 'apikey.dart';
-import 'dart:convert';
+
 // String APIkey = api_key;
 
 
@@ -21,7 +19,7 @@ void main() async {
   // getWeather();
   var weather = await realWeather();
   print(weather.weatherIconFromTime(6));
-  // runApp(MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -64,22 +62,24 @@ class ViewWeatherImage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         body: Center(
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 400,
-                width: 400,
-                  child: WetherWidget(line: "")
-              ),
-              Container(
-                  height: 400,
-                  width: 400,
-                  child: TransInfoWidget(line: "")
-              )
-            ],
-          )
+                Column(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 350,
+                        width: 400,
+                          child: WetherWidget(line: "")
+                      ),
+                      Container(
+                          height: 300,
+                          width: 400,
+                          child: TransInfoWidget(line: "")
+                      ),
+                      Container(
+                          height: 100,
+                          width: 400,
+                        child: AlarmWidget(title: "")
+                      )
+                    ],
           // ここを追加
           // child: Image.asset('assets/image/tenki_mark01_hare.png'),
           // body: Row(
@@ -91,7 +91,7 @@ class ViewWeatherImage extends StatelessWidget {
           //   ],
         ),
       ),
-    );
+    ));
   }
 
   Future<List<List<String>>> fetchTrainInfo(String dummyLines) async {
