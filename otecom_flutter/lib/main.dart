@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:otecom_flutter/alarm.dart';
 // import 'apikey.dart';
 import 'package:weather/weather.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'pages/alarm_page.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+
+
+const int alramSecond = 5;
+
+// import 'apikey.dart';
 import 'dart:convert';
 // String APIkey = api_key;
+
 
 void main() async {
   // getWeather();
@@ -42,9 +51,9 @@ class ViewWeatherImage extends StatelessWidget {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Colors.white,
-            Colors.blue,
-          ],
+          Color(0xffb1faff),
+            Color(0xff2c5b9b),
+        ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -160,20 +169,30 @@ class ViewWeatherImage extends StatelessWidget {
                     ],
                   )
                 ],
+              ),
+              TextButton(
+                child: Text("Set"),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AlarmPage()));
+                },
+              ),
+              Container(
+                height: 100,
+                width: 200,
+                child: AlarmWidget(title:"tone"),
               )
             ],
           )
-        ])
-            // ここを追加
-            // child: Image.asset('assets/image/tenki_mark01_hare.png'),
-            // body: Row(
-            //   children: <Widget>[
-            //     Text("item1"),
-            //     Text("item2"),
-            //     Text("item3"),
-            //     Text("item4"),
-            //   ],
-            ),
+          // ここを追加
+          // child: Image.asset('assets/image/tenki_mark01_hare.png'),
+          // body: Row(
+          //   children: <Widget>[
+          //     Text("item1"),
+          //     Text("item2"),
+          //     Text("item3"),
+          //     Text("item4"),
+          //   ],
+        ),
       ),
     );
   }
