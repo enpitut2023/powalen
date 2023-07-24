@@ -18,6 +18,8 @@ dependencies:
   # for splash
   cupertino_icons: ^1.0.2
   flutter_native_splash: ^2.3.1
+  intl: any
+  flutter_slidable: ^3.0.0
 
   http: ^0.13.1
   html: ^0.15.0
@@ -27,6 +29,9 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  android_alarm_manager_plus: ^2.1.0
+  flutter_ringtone_player: ^3.2.0
+  flutter_local_notifications: ^15.1.0+1
 
 
 flutter:
