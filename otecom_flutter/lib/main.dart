@@ -131,7 +131,7 @@ class WeatherInfo {
   final Map<String, dynamic> currentWeather;
   final List<dynamic> temp;
   final List<dynamic> weather;
-  final List<double> precipitation;
+  final List<double> precipitationProb;
   final double maxTemp;
   final double minTemp;
   static Map<String, String> icon = {
@@ -141,14 +141,17 @@ class WeatherInfo {
     'heavyRain': 'assets/image/weather_strongrain.png',
     'snow': 'assets/image/weather_snow.png',
     'thunderStorm': 'assets/image/weather_thunderStorm.png',
-    'unknownWeather': 'error',
+    'unknownWeather': 'unknownWeather',
+    'needUmbrella': 'assets/image/weather_rain.png', // あとで変える
+    'noUmbrella': 'assets/image/weather_sun.png', // あとで変える
+
   };
 
   WeatherInfo(
       {required this.currentWeather,
       required this.temp,
       required this.weather,
-      required this.precipitation,
+      required this.precipitationProb,
       required this.maxTemp,
       required this.minTemp});
 
@@ -170,8 +173,8 @@ class WeatherInfo {
       // temp: json['hourly']['temperature_2m'],
       temp: tempDouble,
       weather: json['hourly']['weathercode'],
-      precipitation: precipitationDouble,
-      maxTemp: minTempDouble[0],
+      precipitationProb: precipitationDouble,
+      maxTemp: maxTempDouble[0],
       minTemp: minTempDouble[0],
     );
   }
@@ -234,25 +237,48 @@ class WeatherInfo {
         ? WeatherInfo.icon[weatherName]!
         : 'unknownWeather';
   }
+  // 傘が必要なら1, 不要なら0を返す
+  int umbrellaCondition() {
+    double maxRainyPercent = 0;
+    for (int i = 6; i <= 18; i++) {
+      if (this.precipitationProb[i] > maxRainyPercent) {
+        maxRainyPercent = this.precipitationProb[i];
+      }
+    }
+    if (maxRainyPercent > 0.5) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
 
-  String umbrellaCondition() {
-    String currentTime;
+  String umbrellaRequiredMessage() {
+    int status = umbrellaCondition();
+    if (status == 1) {
+      return '傘が必要です';
+    } else {
+      return '傘は必要ありません';
+    }
+  }
 
-    double rainyPercent_current = 0;
-    double rainyPercent_18 = 0;
-
-    currentTime = this.currentWeather['time']; // 現在時刻を返す
-    rainyPercent_current = precipitation[]; // 現在時刻の降水確率を返す
-    rainyPercent_18 = precipitation[18]; // 18時の降水確率を返す
-
-
-    return 'test';
+  String umbrellaIcon() {
+    int status = umbrellaCondition();
+    if (status == 1) {
+      return icon['needUmbrella']!;
+    } else {
+      return icon['noUmbrella']!;
+    }
   }
 
   String currentWeatherIcon() {
-    return WeatherInfo.weatherCodeParser(this.currentWeather['weathercode']);
+    String weather = WeatherInfo.weatherCodeParser(this.currentWeather['weathercode']);
+    return WeatherInfo.icon.containsKey(weather)
+        ? WeatherInfo.icon[weather]!
+        : 'unknownWeather';
   }
 }
+
+
 
 Future<WeatherInfo> realWeather() async {
   const url =
