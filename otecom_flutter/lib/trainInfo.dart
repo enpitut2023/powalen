@@ -49,8 +49,8 @@ class _TransInfoState extends State<TransInfoWidget> {
   String TransInfoMapTrainImage(String trainStatus){
     String? imageFile = "";
     Map<String, String> TransInfoMapTraingImage = {
-      '平常運転' : 'assets/image/acon_train.png',
-      '[!]列車遅延' : 'assets/image/unten_miawase_train.png'
+      '平常運転' : 'assets/image/heijouTrain.png',
+      '[!]列車遅延' : 'assets/image/chienTrain.png'
     };
 
     if(TransInfoMapTraingImage.containsKey(trainStatus)){
