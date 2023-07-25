@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'package:otecom_flutter/main.dart';
 
-class WetherWidget extends StatefulWidget {
-  WetherWidget({required this.line}) : super();
-
-  final String line;
+class WeatherWidget extends StatefulWidget {
 
   @override
-  _TransInfoState createState() => _TransInfoState(line: line);
+  _WeatherWidgetState createState() => _WeatherWidgetState();
 }
 
-class _TransInfoState extends State<WetherWidget> {
-  _TransInfoState({required this.line}) : super();
-
-  final String line;
-  List<String> lines = [];
+class _WeatherWidgetState extends State<WeatherWidget> {
 
   @override
   Widget build(BuildContext context) {
     // 以下はinitStateが完了している場合
     return FutureBuilder(
-      future: fetchTrainInfo(line),
+      future: realWeather(),
       builder: (context, snapshot) {
-        List<List<String>>? trainInfo = snapshot.data;
+        WeatherInfo? weather = snapshot.data;
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
@@ -31,10 +25,9 @@ class _TransInfoState extends State<WetherWidget> {
           if (!snapshot.hasData) {
             return Text("データが見つかりません");
           }
-          // データ表示
-          if(trainInfo!.isEmpty){
-            return Text("データが見つかりません");
-          }
+
+          weather!;
+
           return Scaffold(
               backgroundColor: Colors.transparent,
               body: Column(
@@ -44,14 +37,35 @@ class _TransInfoState extends State<WetherWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        height: 150,
-                        width: 150,
-                        child: Image.asset('assets/image/tenki_mark01_hare.png'),
+                          alignment: Alignment.center,
+                          height: 70,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.white70,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text("傘は必要ない！", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 20))
                       ),
                       Container(
-                        height: 150,
+                        height: 100,
                         width: 150,
-                        child: const Text("29℃", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 70),),
+                        child: Image.asset(weather.weatherIconFromTime(11)),
+                      )
+                    ]
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 130,
+                        width: 150,
+                        child: Image.asset(weather.weatherIconFromTime(11)),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 130,
+                        width: 150,
+                        child: Text(weather.maxTemp.toString() + "℃", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 50),),
                       )
                     ],
                   ),
@@ -59,16 +73,19 @@ class _TransInfoState extends State<WetherWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
+                        alignment: Alignment.center,
                         height: 40,
                         width: 120,
                         child: const Text("12:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
                       ),
                       Container(
+                        alignment: Alignment.center,
                         height: 40,
                         width: 120,
                         child: const Text("18:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
                       ),
                       Container(
+                        alignment: Alignment.center,
                         height: 40,
                         width: 120,
                         child: const Text("21:00", style: TextStyle(fontFamily: 'Sawarabi_Gothic', fontSize: 30),),
@@ -81,17 +98,17 @@ class _TransInfoState extends State<WetherWidget> {
                       Container(
                         height: 120,
                         width: 120,
-                        child: Image.asset('assets/image/tenki_mark01_hare.png'),
+                        child: Image.asset(weather.weatherIconFromTime(12)),
                       ),
                       Container(
                         height: 120,
                         width: 120,
-                        child: Image.asset('assets/image/weather_cloud.png'),
+                        child: Image.asset(weather.weatherIconFromTime(18)),
                       ),
                       Container(
                         height: 120,
                         width: 120,
-                        child: Image.asset('assets/image/weather_rain.png'),
+                        child: Image.asset(weather.weatherIconFromTime(21)),
                       ),
                     ],
                   ),

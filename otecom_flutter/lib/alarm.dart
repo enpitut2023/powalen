@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:otecom_flutter/pages/alarm_page.dart';
+import 'sqflite.dart';
 
 
 class Alarm {
@@ -34,24 +36,40 @@ class _AlarmWidgetState extends State {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                callSoundStart();
-              },
-              child: const Text("5秒後に再生"),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                stopSound();
-              },
-              child: const Text("停止"),
-            ),
-          ],
-        ),
+          child:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      stopSound();
+                    },
+                    child: const Text("停止"),
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                child: Text('Set'),
+                style: ButtonStyle(
+                ),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder:(context) => AlarmPage()));
+                  // reBuild();
+                },
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  callSoundStart();
+                },
+                child: const Text("アラーム"),
+              ),
+            ],
+          )
       ),
     );
+
   }
 }
