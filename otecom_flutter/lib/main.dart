@@ -11,13 +11,11 @@ import 'package:timezone/data/latest.dart';
 import 'package:timezone/timezone.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-
 const int alramSecond = 5;
 
 // import 'apikey.dart';
 
 // String APIkey = api_key;
-
 
 void main() async {
   // getWeather();
@@ -56,50 +54,41 @@ class ViewWeatherImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-          Color(0xffb1faff),
-            Color(0xff2c5b9b),
-        ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xffb1faff),
+              Color(0xff2c5b9b),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 350,
-                        width: 400,
-                          child: WetherWidget(line: "")
-                      ),
-                      Container(
-                          height: 300,
-                          width: 400,
-                          child: TransInfoWidget(line: "")
-                      ),
-                      Container(
-                          height: 100,
-                          width: 400,
-                        child: AlarmWidget(title: "")
-                      )
-                    ],
-          // ここを追加
-          // child: Image.asset('assets/image/tenki_mark01_hare.png'),
-          // body: Row(
-          //   children: <Widget>[
-          //     Text("item1"),
-          //     Text("item2"),
-          //     Text("item3"),
-          //     Text("item4"),
-          //   ],
-        ),
-      ),
-    ));
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    height: 350, width: 400, child: WetherWidget(line: "")),
+                Container(
+                    height: 300, width: 400, child: TransInfoWidget(line: "")),
+                Container(
+                    height: 100, width: 400, child: AlarmWidget(title: ""))
+              ],
+              // ここを追加
+              // child: Image.asset('assets/image/tenki_mark01_hare.png'),
+              // body: Row(
+              //   children: <Widget>[
+              //     Text("item1"),
+              //     Text("item2"),
+              //     Text("item3"),
+              //     Text("item4"),
+              //   ],
+            ),
+          ),
+        ));
   }
 
   Future<List<List<String>>> fetchTrainInfo(String dummyLines) async {
@@ -151,8 +140,8 @@ class WeatherInfo {
   final List<dynamic> temp;
   final List<dynamic> weather;
   final List<double> precipitation;
-  final List<double> maxTemp;
-  final List<double> minTemp;
+  final double maxTemp;
+  final double minTemp;
   static Map<String, String> icon = {
     'sunny': 'assets/image/weather_sun.png',
     'cloudy': 'assets/image/weather_cloud.png',
@@ -177,26 +166,21 @@ class WeatherInfo {
     List<double> maxTempDouble = [];
     List<double> minTempDouble = [];
 
-    json['hourly']['temperature_2m'].forEach((item) => {
-      tempDouble.add(item)
-    });
-    json['hourly']['precipitation'].forEach((item) => {
-      precipitationDouble.add(item)
-    });
-    json['daily']['temperature_2m_max'].forEach((item) => {
-      maxTempDouble.add(item)
-    });
-    json['daily']['temperature_2m_min'].forEach((item) => {
-      minTempDouble.add(item)
-    });
+    json['hourly']['temperature_2m'].forEach((item) => {tempDouble.add(item)});
+    json['hourly']['precipitation']
+        .forEach((item) => {precipitationDouble.add(item)});
+    json['daily']['temperature_2m_max']
+        .forEach((item) => {maxTempDouble.add(item)});
+    json['daily']['temperature_2m_min']
+        .forEach((item) => {minTempDouble.add(item)});
     return WeatherInfo(
       currentWeather: json['current_weather'],
       // temp: json['hourly']['temperature_2m'],
       temp: tempDouble,
       weather: json['hourly']['weathercode'],
       precipitation: precipitationDouble,
-      maxTemp: minTempDouble,
-      minTemp: minTempDouble,
+      maxTemp: minTempDouble[0],
+      minTemp: minTempDouble[0],
     );
   }
 
@@ -257,6 +241,24 @@ class WeatherInfo {
     return WeatherInfo.icon.containsKey(weatherName)
         ? WeatherInfo.icon[weatherName]!
         : 'unknownWeather';
+  }
+
+  String umbrellaCondition() {
+    String currentTime;
+
+    double rainyPercent_current = 0;
+    double rainyPercent_18 = 0;
+
+    currentTime = this.currentWeather['time']; // 現在時刻を返す
+    rainyPercent_current = precipitation[]; // 現在時刻の降水確率を返す
+    rainyPercent_18 = precipitation[18]; // 18時の降水確率を返す
+
+
+    return 'test';
+  }
+
+  String currentWeatherIcon() {
+    return WeatherInfo.weatherCodeParser(this.currentWeather['weathercode']);
   }
 }
 
