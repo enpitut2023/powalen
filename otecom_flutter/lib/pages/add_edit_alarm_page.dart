@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:otecom_flutter/alarm.dart';
 import 'package:intl/intl.dart';
+import 'package:otecom_flutter/sqflite.dart';
 
 class AddEditAlarmPage extends StatefulWidget {
   final List<Alarm> alarmList;
@@ -50,14 +51,22 @@ class _AddEditAlarmPageState extends State<AddEditAlarmPage> {
                 alignment: Alignment.center,
                 child: Text('保存', style: TextStyle(color: Colors.white))
             ),
-            onTap: () {
-              Alarm alarm = Alarm(alarmTime: DateTime(2000, 1, 1, selectedDate.hour, selectedDate.minute));
-              if(widget.index != null){
-                widget.alarmList[widget.index!] = alarm;
+            onTap: () async{
+              DateTime now =DateTime.now();
+              DateTime? alarmTime;
+              if(now.compareTo(selectedDate) == -1) {
+                alarmTime = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedDate.hour, selectedDate.minute);
               } else {
-                widget.alarmList.add(alarm);
+                alarmTime = DateTime(now.year, now.month, now.day + 1, selectedDate.hour, selectedDate.minute);
               }
-
+              Alarm alarm = Alarm(alarmTime: alarmTime);
+              if(widget.index != null){
+                alarm.id = widget.alarmList[widget.index!].id;
+                await DbProvider.updateData(alarm);
+              } else {
+                int id = await DbProvider.insertData(alarm);
+                alarm.id = id;
+              }
               Navigator.pop(context);
             },
           ),
