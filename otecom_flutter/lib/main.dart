@@ -6,6 +6,10 @@ import 'package:html/parser.dart' show parse;
 import 'trainInfo.dart';
 import 'wether.dart';
 import 'dart:convert';
+import 'package:otecom_flutter/pages/alarm_page.dart';
+import 'package:timezone/data/latest.dart';
+import 'package:timezone/timezone.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 
 const int alramSecond = 5;
@@ -19,15 +23,19 @@ void main() async {
   // getWeather();
   var weather = await realWeather();
   print(weather.weatherIconFromTime(6));
+  initializeTimeZones();
+  setLocalLocation(getLocation('Asia/Tokyo'));
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Hello Flutter',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           // This is the theme of your application.
           //

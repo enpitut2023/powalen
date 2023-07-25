@@ -5,6 +5,10 @@ import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:otecom_flutter/pages/add_edit_alarm_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:otecom_flutter/sqflite.dart';
+import 'dart:async';
+import 'package:timezone/timezone.dart' as tz;
+
 
 class AlarmPage extends StatefulWidget {
   @override
@@ -12,23 +16,74 @@ class AlarmPage extends StatefulWidget {
 }
 
 class _AlarmPageState extends State<AlarmPage> {
-  List<Alarm> alarmList =[
-    Alarm(alarmTime: DateTime(2000, 1, 1, 6, 0))
-  ];
+  List<Alarm> alarmList =[];
+  DateTime time = DateTime.now();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  void notification() {
+
+  Future<void> initDb() async{
+    await DbProvider.setDb();
+    alarmList = await DbProvider.getData();
+    setState(() {});
+  }
+
+  Future<void> reBuild() async{
+    alarmList = await DbProvider.getData();
+    alarmList.sort((a, b) => a.alarmTime.compareTo(b.alarmTime));
+    setState(() {});
+  }
+
+  void initializeNotification(){
     flutterLocalNotificationsPlugin.initialize(
-      InitializationSettings(
-        android: AndroidInitializationSettings('ic_launcher'),
-        iOS: DarwinInitializationSettings()
-      )
+        InitializationSettings(
+          android: AndroidInitializationSettings('ic_launcher'),
+          iOS: DarwinInitializationSettings(),
+        )
     );
-    flutterLocalNotificationsPlugin.show(1, 'アラーム', '時間になりました', NotificationDetails(
-      android: AndroidNotificationDetails('id', 'name', importance: Importance.max,priority: Priority.high),
-      iOS: DarwinNotificationDetails()
+  }
+
+  void setNotification(int id, DateTime alarmTime) {
+    flutterLocalNotificationsPlugin.zonedSchedule(
+      id, 'アラーム', '時間になりました', tz.TZDateTime.from(alarmTime, tz.local),
+      NotificationDetails(
+        android: AndroidNotificationDetails('id', 'name', importance: Importance.max, priority: Priority.high),
+        iOS: DarwinNotificationDetails(),
+      ),
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
+    );
+  }
+
+  void notification() async{
+    await flutterLocalNotificationsPlugin.initialize(
+        InitializationSettings(
+          android: AndroidInitializationSettings('ic_launcher'),
+          iOS: DarwinInitializationSettings(),
+        )
+    );
+    flutterLocalNotificationsPlugin.show(1, 'アラーム', '時間になりました',NotificationDetails(
+      android: AndroidNotificationDetails('id', 'name', importance: Importance.max, priority: Priority.high),
+      iOS: DarwinNotificationDetails(),
     ));
   }
+
+  @override
+  void initState(){
+    super.initState();
+    initDb();
+    initializeNotification();
+  }
+
+  void _requestIOSPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,10 +96,11 @@ class _AlarmPageState extends State<AlarmPage> {
             trailing: GestureDetector(
               child: Icon(Icons.add, color: Colors.green,),
               onTap: () async{
-                await Navigator.push(context, MaterialPageRoute(builder:(context) => AddEditAlarmPage(alarmList)));
-                setState(() {
-                  alarmList.sort((a,b) => a.alarmTime.compareTo(b.alarmTime));
-                });
+                var result = await Navigator.push(context, MaterialPageRoute(builder:(context) => AddEditAlarmPage(alarmList)));
+                if(result != null){
+                  setNotification(result.id, result.alarmTime);
+                  reBuild();
+                }
               },
             ),
           ),
@@ -55,24 +111,43 @@ class _AlarmPageState extends State<AlarmPage> {
                   return Column(
                     children: [
                       if(index==0) Divider(color: Colors.grey, height: 1),
-                      ListTile(
-                        title: Text(DateFormat('H:mm').format(alarm.alarmTime),
-                            style: TextStyle(color: Colors.white, fontSize: 50)
+                      Slidable(
+                        key: Key(alarm.id.toString()),  // あなたの状況に合わせた適切なキーを設定してください
+                        endActionPane: ActionPane(
+                        motion: ScrollMotion(),
+                        children: <Widget>[
+                            SlidableAction(
+                              onPressed: (context) async {
+                                await DbProvider.deleteData(alarm.id);
+                                reBuild();
+                              },
+                              label: '削除',
+                              icon: Icons.delete,
+                              backgroundColor: Colors.red,
+                            ),
+
+                          ],
                         ),
-                        trailing: CupertinoSwitch(
-                          value: alarm.isActive,
-                          onChanged: (newValue) {
-                            setState((){
-                              alarm.isActive = newValue;
-                            });
-                          },
-                        ),
-                        onTap: () async{
-                          await Navigator.push(context, MaterialPageRoute(builder:(context) => AddEditAlarmPage(alarmList, index: index)));
-                          setState(() {
-                            alarmList.sort((a,b) => a.alarmTime.compareTo(b.alarmTime));
-                          });
-                        },
+                          child:ListTile(
+                            title: Text(DateFormat('H:mm').format(alarm.alarmTime),
+                                style: TextStyle(color: Colors.white, fontSize: 50)
+                            ),
+                            trailing: CupertinoSwitch(
+                              value: alarm.isActive,
+                              onChanged: (newValue) async{
+                                alarm.isActive = newValue;
+                                await DbProvider.updateData(alarm);
+                                reBuild();
+                              },
+                            ),
+                            onTap: () async{
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder:(context) => AddEditAlarmPage(alarmList, index: index)));
+                                      reBuild();
+                            },
+                          ),
                       ),
                       Divider(color: Colors.grey, height: 0)
                     ],
