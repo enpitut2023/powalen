@@ -260,25 +260,6 @@ class WeatherInfo {
     }
   }
 
-  String umbrellaCondition() {
-    String currentTime;
-
-    double rainyPercent_current = 0;
-    double rainyPercent_18 = 0;
-
-    currentTime = this.currentWeather['time']; // 現在時刻を返す
-    rainyPercent_current = precipitation[18]; // 現在時刻の降水確率を返す
-    rainyPercent_18 = precipitation[18]; // 18時の降水確率を返す
-
-  String umbrellaRequiredMessage() {
-    int status = umbrellaCondition();
-    if (status == 1) {
-      return '傘が必要です';
-    } else {
-      return '傘は必要ありません';
-    }
-  }
-
   String umbrellaIcon() {
     int status = umbrellaCondition();
     if (status == 1) {
