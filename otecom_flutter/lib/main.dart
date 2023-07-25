@@ -71,9 +71,9 @@ class ViewWeatherImage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    height: 350, width: 400, child: WetherWidget(line: "")),
+                    height: 400, width: 450, child: WeatherWidget()),
                 Container(
-                    height: 300, width: 400, child: TransInfoWidget(line: "")),
+                    height: 200, width: 400, child: TransInfoWidget(line: "")),
                 Container(
                     height: 100, width: 400, child: AlarmWidget(title: ""))
               ],
@@ -259,6 +259,16 @@ class WeatherInfo {
       return 0;
     }
   }
+
+  String umbrellaCondition() {
+    String currentTime;
+
+    double rainyPercent_current = 0;
+    double rainyPercent_18 = 0;
+
+    currentTime = this.currentWeather['time']; // 現在時刻を返す
+    rainyPercent_current = precipitation[18]; // 現在時刻の降水確率を返す
+    rainyPercent_18 = precipitation[18]; // 18時の降水確率を返す
 
   String umbrellaRequiredMessage() {
     int status = umbrellaCondition();
