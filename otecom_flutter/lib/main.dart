@@ -245,6 +245,16 @@ class WeatherInfo {
         ? WeatherInfo.icon[weatherName]!
         : 'unknownWeather';
   }
+
+  String umbrellaRequiredMessage() {
+    int status = umbrellaCondition();
+    if (status == 1) {
+      return '傘が必要です';
+    } else {
+      return '傘は必要ありません';
+    }
+  }
+
   // 傘が必要なら1, 不要なら0を返す
   int umbrellaCondition() {
     double maxRainyPercent = 0;
